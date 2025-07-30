@@ -4,4 +4,5 @@ import br.com.lovizoto.externalapi.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserRepository extends JpaRepository<User, Long> {
+    User findByExternalId(String externalId);
 }
