@@ -2,7 +2,7 @@ package br.com.lovizoto.externalapi.model;
 
 import jakarta.persistence.*;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 
 @Entity
@@ -10,51 +10,51 @@ import java.util.Date;
 public class Session {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String id;
 
     @Column(name = "user_id")
-    private Long userId;
+    private String userId;
 
     @Column(name = "started_at")
-    private Date startedAt;
+    private LocalDateTime startedAt;
 
     @Column(name = "last_active")
-    private Date lastActive;
+    private LocalDateTime lastActive;
 
     @Column(name = "status")
     private String status;
 
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public Long getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(Long userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 
-    public Date getStartedAt() {
+    public LocalDateTime getStartedAt() {
         return startedAt;
     }
 
-    public void setStartedAt(Date startedAt) {
+    public void setStartedAt(LocalDateTime startedAt) {
         this.startedAt = startedAt;
     }
 
-    public Date getLastActive() {
+    public LocalDateTime getLastActive() {
         return lastActive;
     }
 
-    public void setLastActive(Date lastActive) {
+    public void setLastActive(LocalDateTime lastActive) {
         this.lastActive = lastActive;
     }
 
