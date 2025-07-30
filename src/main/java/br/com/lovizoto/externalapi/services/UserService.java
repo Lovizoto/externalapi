@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -38,9 +39,9 @@ public class UserService {
         return userRepository.findById(id).orElse(null); //make a exception handler
     }
 
-    public User findByExternalId(String externalId) {
+    public Optional<User> findByExternalId(String externalId) {
         logger.info("Find User by External ID");
-        return userRepository.findByExternalId(externalId);
+        return userRepository.findByExternalId(externalId); //dont need a exception handler, yet!
     }
 
     //Can an update be considered here?
