@@ -1,6 +1,6 @@
 package br.com.lovizoto.externalapi.mapper.decorators;
 
-import br.com.lovizoto.externalapi.dto.FirstContactDto;
+import br.com.lovizoto.commons.dto.FirstContactDto;
 import br.com.lovizoto.externalapi.mapper.UserMapper;
 import br.com.lovizoto.externalapi.model.User;
 import br.com.lovizoto.externalapi.services.UserService;
