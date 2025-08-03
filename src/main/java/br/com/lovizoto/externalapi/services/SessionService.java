@@ -26,7 +26,7 @@ public class SessionService {
         return sessionRepository.findAll();
     }
 
-    public Session getSessionById(Long id) {
+    public Session getSessionById(String id) {
         return sessionRepository.findById(id).get(); //make a exception handler
     }
 

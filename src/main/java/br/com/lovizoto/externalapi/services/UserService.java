@@ -34,7 +34,7 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public User findById(Long id) {
+    public User findById(String id) {
         logger.info("Find User by ID");
         return userRepository.findById(id).orElse(null); //make a exception handler
     }
