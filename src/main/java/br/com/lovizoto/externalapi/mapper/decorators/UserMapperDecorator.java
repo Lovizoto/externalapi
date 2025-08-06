@@ -1,6 +1,7 @@
 package br.com.lovizoto.externalapi.mapper.decorators;
 
 import br.com.lovizoto.commons.dto.FirstContactDto;
+import br.com.lovizoto.externalapi.dto.MessageDto;
 import br.com.lovizoto.externalapi.mapper.UserMapper;
 import br.com.lovizoto.externalapi.model.User;
 import br.com.lovizoto.externalapi.services.UserService;
@@ -20,9 +21,9 @@ public class UserMapperDecorator implements UserMapper {
     private UserMapper userMapper;
 
     @Override
-    public User fromDto(FirstContactDto firstContactDto) {
-        return userService.findByExternalId(firstContactDto.getExternalId()).orElseGet(() -> {
-            User user = userMapper.fromDto(firstContactDto);
+    public User fromDto(MessageDto messageDto) {
+        return userService.findByExternalIdAndSource(messageDto.getExternalId(), messageDto.getSource()).orElseGet(() -> {
+            User user = userMapper.fromDto(messageDto);
             user.setCreatedAt(LocalDateTime.now());
             return user;
         });

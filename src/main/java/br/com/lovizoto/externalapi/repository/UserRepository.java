@@ -9,6 +9,6 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends JpaRepository<User, String> {
 
+    Optional<User> findByExternalIdAndSource(String externalId, String source);
     Optional<User> findByExternalId(String externalId);
-
 }
