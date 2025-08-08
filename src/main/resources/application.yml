@@ -1,0 +1,28 @@
+spring:
+  application:
+    name: externalapi
+
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/schema_chatbot_project?useTimezone=true&serverTimezone=UTC
+    username: root
+    password: yourpassword
+
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    #    properties:
+    ##      hibernate:
+    ##        dialect: org.hibernate.dialect.MySQLDialect
+    show_sql: false
+    open-in-view: false
+
+
+ #config server, redis and others
+
+
+logging:
+  level:
+    root: WARN
