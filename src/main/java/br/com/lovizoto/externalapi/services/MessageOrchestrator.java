@@ -7,6 +7,8 @@ import br.com.lovizoto.externalapi.model.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Transactional
 public class MessageOrchestrator {
@@ -28,9 +30,16 @@ public class MessageOrchestrator {
         String sessionId = chatbotApiClient.createsession(user.getId());
         String response = chatbotApiClient.sendMessage(sessionId, messageDto.getMessage());
 
+        //modificate chatbot-commons and make a constructor for this code below
+        BatchResponse batchResponse = new BatchResponse();
+        batchResponse.setResponses(List.of(response));
+        batchResponse.setSessionId(sessionId);
 
+        return batchResponse;
 
 
     }
+
+    //verify if necessary a batch version
 
 }
