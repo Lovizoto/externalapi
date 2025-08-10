@@ -2,10 +2,13 @@ package br.com.lovizoto.externalapi.client;
 
 
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+@Component
 @FeignClient(
         name = "",
         url = "",

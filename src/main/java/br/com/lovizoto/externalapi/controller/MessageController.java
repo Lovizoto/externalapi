@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/message")
 public class MessageController {
@@ -26,16 +28,30 @@ public class MessageController {
         this.messageOrchestrator = messageOrchestrator;
     }
 
+//    @PostMapping
+//    public ResponseEntity<BatchResponse> handleMessage(@Valid @RequestBody MessageDto messageDto) {
+//        return ResponseEntity.ok(messageOrchestrator.process(messageDto));
+//    }
+
+
     @PostMapping
     public ResponseEntity<BatchResponse> handleMessage(@Valid @RequestBody MessageDto messageDto) {
-        return ResponseEntity.ok(messageOrchestrator.process(messageDto));
+        // Converts the single message into a one-item batch;
+        BatchRequest batchRequest = new BatchRequest();
+        batchRequest.setExternalId(messageDto.getExternalId());
+        batchRequest.setSource(messageDto.getSource());
+        batchRequest.setMessages(List.of(messageDto.getMessage())); // Usa List.of para criar uma lista imutável
+
+        // Uses the same batch processing method;
+        return ResponseEntity.ok(messageOrchestrator.processBatch(batchRequest));
     }
 
-    //everything will be batch - ???
-//    @PostMapping ("/batch")
-//    public ResponseEntity<BatchResponse> handleBatch(@Valid @RequestBody BatchRequest batchRequest) {
-//        return ResponseEntity.ok(messageOrchestrator.processBatch(batchRequest));
-//    }
+    @PostMapping ("/batch")
+    public ResponseEntity<BatchResponse> handleBatch(@Valid @RequestBody BatchRequest batchRequest) {
+        // This endpoint now calls the same method, maintaining consistency;
+        return ResponseEntity.ok(messageOrchestrator.processBatch(batchRequest));
+    }
+
 
 
 }

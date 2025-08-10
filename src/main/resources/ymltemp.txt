@@ -1,0 +1,54 @@
+# Define a porta em que a aplicação irá rodar. É uma boa prática não usar a porta padrão (8080).
+server:
+  port: 8081
+
+spring:
+  application:
+    name: external-api # Nome da sua aplicação, ótimo para identificação em logs e serviços de monitoramento
+
+  # Configuração do Banco de Dados (já estava correta)
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/schema_chatbot_project?useTimezone=true&serverTimezone=UTC
+    username: root
+    password: yourpassword
+
+  # Configuração do JPA/Hibernate
+  jpa:
+    hibernate:
+      # 'update' é bom para desenvolvimento. Para produção, considere usar 'validate' e
+      # gerenciar o schema com ferramentas de migração como Flyway ou Liquibase.
+      ddl-auto: update
+    properties:
+      hibernate:
+        # Definir o dialeto explicitamente evita ambiguidades.
+        dialect: org.hibernate.dialect.MySQLDialect
+    show_sql: false
+    # 'open-in-view: false' é uma excelente prática de performance para evitar que a sessão
+    # com o banco de dados fique aberta desnecessariamente.
+    open-in-view: false
+
+  # --- CONFIGURAÇÃO DO REDIS ---
+  # Necessário para o Spring Cache se conectar ao seu servidor Redis.
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      # Se o seu Redis tiver senha, descomente a linha abaixo:
+      # password: your-redis-password
+
+# --- CONFIGURAÇÕES CUSTOMIZADAS DA APLICAÇÃO ---
+# É uma boa prática agrupar configurações específicas da sua aplicação.
+
+# URL da API do Chatbot, usada pelo Feign Client
+chatbot:
+  api:
+    url: http://localhost:8082 # Ou a URL real da sua API de Chatbot
+
+# Configuração de Logs
+logging:
+  level:
+    # Define o nível de log para os pacotes da sua aplicação como DEBUG para ver mais detalhes durante o desenvolvimento.
+    com.yourcompany.yourapp: DEBUG # Substitua pelo seu pacote base (ex: br.com.meuprojeto)
+    # Define o nível de log para todo o resto como WARN, para não poluir os logs.
+    root: WARN
