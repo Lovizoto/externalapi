@@ -1,10 +1,16 @@
 package br.com.lovizoto.externalapi.services;
 
-import br.com.lovizoto.commons.dto.BatchResponse;
+
+import br.com.lovizoto.commons.dto.MessageRequest;
+import br.com.lovizoto.commons.dto.MessageResponse;
+import br.com.lovizoto.commons.dto.SessionRequest;
+import br.com.lovizoto.commons.dto.SessionResponse;
 import br.com.lovizoto.externalapi.client.ChatbotApiClient;
 import br.com.lovizoto.externalapi.dto.BatchRequest;
+import br.com.lovizoto.externalapi.dto.BatchResponse;
 import br.com.lovizoto.externalapi.dto.MessageDto;
 import br.com.lovizoto.externalapi.model.User;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,23 +33,8 @@ public class MessageOrchestrator {
         this.sessionCacheService = sessionCacheService;
     }
 
-//    public BatchResponse process(MessageDto messageDto) {
-//
-//        //User manager with cache
-//        User user = userService.searchFromCache(messageDto.getExternalId(), messageDto.getSource());
-//
-//        String sessionId = chatbotApiClient.createsession(user.getId());
-//        String response = chatbotApiClient.sendMessage(sessionId, messageDto.getMessage());
-//
-//        //modificate chatbot-commons and make a constructor for this code below
-//        BatchResponse batchResponse = new BatchResponse();
-//        batchResponse.setResponses(List.of(response));
-//        batchResponse.setSessionId(sessionId);
-//
-//        return batchResponse;
-//
-//
-//    }
+
+
 
     public BatchResponse processBatch(BatchRequest batchRequest) {
 
@@ -53,16 +44,24 @@ public class MessageOrchestrator {
         // 2. Retrieves/Creates the UNIQUE SESSION for this user.
         // The session is retrieved from the cache or created. It is the same for all messages in this batch.
         String sessionId = sessionCacheService.getSessionId(user.getId());
+
         if (sessionId == null) {
-            sessionId = chatbotApiClient.createsession(user.getId());
+
+            SessionRequest sessionRequest = new SessionRequest(user.getId());
+
+            SessionResponse sessionResponse = chatbotApiClient.createSession(sessionRequest);
+            sessionId = sessionResponse.sessionId();
+
             sessionCacheService.cacheSessionId(user.getId(), sessionId); // Stores the new session in the cache;
         }
 
         // Sends ALL messages in the batch to the SAME SESSION;
         List<String> responses = new ArrayList<>();
         for (String message : batchRequest.getMessages()) {
-            String response = chatbotApiClient.sendMessage(sessionId, message);
-            responses.add(response);
+
+            MessageRequest messageRequest = new MessageRequest(message);
+            MessageResponse messageResponse = chatbotApiClient.sendMessage(sessionId, messageRequest);
+            responses.add(messageResponse.response());
         }
 
         // 4. Builds the batch response;

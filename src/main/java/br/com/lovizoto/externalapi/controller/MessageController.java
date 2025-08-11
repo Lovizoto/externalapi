@@ -1,8 +1,9 @@
 package br.com.lovizoto.externalapi.controller;
 
 
-import br.com.lovizoto.commons.dto.BatchResponse;
+
 import br.com.lovizoto.externalapi.dto.BatchRequest;
+import br.com.lovizoto.externalapi.dto.BatchResponse;
 import br.com.lovizoto.externalapi.dto.MessageDto;
 import br.com.lovizoto.externalapi.services.MessageOrchestrator;
 import br.com.lovizoto.externalapi.services.UserService;

@@ -1,11 +1,17 @@
 package br.com.lovizoto.externalapi.dto;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+
 import java.util.List;
 
 public class BatchRequest {
 
+    @NotBlank
     private String externalId;
+    @NotBlank
     private String source;
+    @NotEmpty
     private List<String> messages;
 
     public String getExternalId() {

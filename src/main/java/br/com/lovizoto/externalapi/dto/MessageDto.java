@@ -1,9 +1,14 @@
 package br.com.lovizoto.externalapi.dto;
 
+import jakarta.validation.constraints.NotBlank;
+
 public class MessageDto {
 
+    @NotBlank
     private String externalId;
+    @NotBlank
     private String source;
+    @NotBlank
     private String message;
 
     public String getExternalId() {
